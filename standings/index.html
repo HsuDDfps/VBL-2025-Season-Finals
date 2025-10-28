@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VBL 2025 Season Finals · STAFF</title>
+  <meta name="color-scheme" content="light dark"/>
+  <link rel="icon" type="image/png" href="standings_icon.png"/>
+  <style>
+    :root{
+      --primary-color:#b949ea;
+      --primary-600:#a03cd2;
+      --primary-700:#8a2fba;
+      --secondary-color:#2b2b33;
+      --success-color:#22c55e;
+      --danger-color:#ef4444;
+      --warning-color:#f59e0b;
+      --light-color:#eef0f4;
+      --dark-color:#1f1f27;
+      --card-bg:#ffffff;
+      --page-bg:#f6f7fb;
+      --text:#25262b;
+      --muted:#667085;
+      --shadow:0 8px 24px rgba(17, 12, 46, .06);
+      --radius:14px;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --card-bg:#1c1e26;
+        --page-bg:#11131a;
+        --text:#eaecf0;
+        --muted:#bfc6d6;
+        --light-color:#2a2f3d;
+        --secondary-color:#d0d5dd;
+        --shadow:0 8px 28px rgba(0,0,0,.35);
+      }
+      .pill{
+        background:linear-gradient(180deg, rgba(185,73,234,.45), rgba(185,73,234,.28));
+        border-color:rgba(185,73,234,.8);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 0 0 3px rgba(185,73,234,.16);
+      }
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Noto Sans TC", "PingFang TC", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(185,73,234,.12), transparent 60%),
+                  radial-gradient(900px 500px at 110% 10%, rgba(185,73,234,.10), transparent 60%),
+                  var(--page-bg);
+      color:var(--text);
+      line-height:1.6;
+      letter-spacing:.2px;
+    }
+    .container{max-width:1200px;margin:auto;padding:24px}
+    header{
+      position:relative;border-radius:20px;padding:28px 20px 24px;
+      background:
+        linear-gradient(135deg, rgba(185,73,234,.16) 0%, rgba(185,73,234,.06) 40%, rgba(185,73,234,.02) 100%),
+        linear-gradient(135deg, var(--primary-color), var(--primary-700));
+      color:#fff;overflow:hidden;box-shadow:var(--shadow);
+    }
+    header:after{
+      content:"";position:absolute;inset:-40% -20% auto auto;width:580px;height:580px;border-radius:50%;
+      background:radial-gradient(closest-side, rgba(255,255,255,.22), rgba(255,255,255,0));filter: blur(30px);opacity:.55;pointer-events:none;
+    }
+    h1{margin:0 0 6px;font-size:2.1rem;font-weight:800;letter-spacing:.3px}
+    .subtitle{opacity:.95;font-size:1rem}
+    .tabs{display:flex;gap:8px;margin:18px auto 22px;background:transparent;flex-wrap:wrap;justify-content:center}
+    .tab{cursor:pointer;user-select:none;padding:10px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.25);color:#fff;backdrop-filter: blur(6px);transition:.25s ease;font-weight:700;letter-spacing:.3px;background:linear-gradient(0deg, rgba(0,0,0,.12), rgba(255,255,255,.06))}
+    .tab:hover{transform:translateY(-1px)}
+    .tab.active{background:#fff;color:#3a1b49;border-color:#fff;box-shadow:0 4px 18px rgba(255,255,255,.32), inset 0 -2px 0 rgba(0,0,0,.08)}
+    .surface{background:var(--card-bg);border:1px solid var(--light-color);border-radius:var(--radius);padding:18px 18px;box-shadow:var(--shadow)}
+    .grid{display:grid;gap:18px}
+    .stack{display:flex;flex-direction:column;gap:10px}
+    .section-title{font-size:1.15rem;font-weight:800;color:var(--secondary-color);padding-bottom:8px;border-bottom:1px dashed var(--light-color);display:flex;align-items:center;gap:10px}
+    .section-title .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg, var(--primary-color), var(--primary-700));box-shadow:0 0 0 5px rgba(185,73,234,.12)}
+    /* Ranking table */
+    table{width:100%;border-collapse:separate;border-spacing:0 10px}
+    thead th{text-align:left;font-size:.9rem;color:var(--muted);padding:0 12px 4px;border-bottom:1px solid var(--light-color)}
+    tbody tr{background:linear-gradient(180deg, rgba(185,73,234,.06), rgba(185,73,234,.02));border:1px solid var(--light-color);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(17,12,46,.06)}
+    tbody td{padding:14px 12px}
+    .rank{width:60px;text-align:center;font-weight:800}
+    .team-cell{display:flex;align-items:center;gap:10px;font-weight:700}
+    .team-logo{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid rgba(185,73,234,.35)}
+    .diff-pos{color:#16a34a;font-weight:800}
+    .diff-neg{color:#dc2626;font-weight:800}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:.82rem;font-weight:800;color:#ffffff;background:linear-gradient(180deg, rgba(185,73,234,.35), rgba(185,73,234,.22));border:1px solid rgba(185,73,234,.65);box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 0 0 3px rgba(185,73,234,.10);letter-spacing:.2px}
+    /* Match list */
+    .match-grid{display:flex;flex-direction:column;gap:12px}
+    .match-card{display:flex;align-items:center;justify-content:space-between;background:var(--card-bg);border:1px solid var(--light-color);border-left:6px solid var(--primary-color);border-radius:12px;padding:10px 16px;box-shadow:var(--shadow)}
+    .match-teams{display:flex;align-items:center;gap:20px;flex:1;flex-wrap:wrap}
+    .team{display:flex;align-items:center;gap:8px;min-width:0}
+    /* Blend Team A/B tag with background */
+    .team .tag{font-size:.72rem;padding:2px 8px;border-radius:999px;border:1px solid rgba(185,73,234,.18);background:rgba(185,73,234,.10);color:var(--muted);font-weight:800}
+    .team-logo-sm{width:26px;height:26px;border-radius:50%;object-fit:cover;border:2px solid rgba(185,73,234,.28)}
+    .score{font-weight:900;font-size:1.25rem;padding:4px 10px;border-radius:10px;background:linear-gradient(180deg, rgba(185,73,234,.12), rgba(185,73,234,.06));border:1px solid rgba(185,73,234,.22)}
+    .match-meta{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.9rem}
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:.75rem;font-weight:800}
+    .badge-win{background:rgba(34,197,94,.15);color:#16a34a;border:1px solid rgba(34,197,94,.35)}
+    .badge-loss{background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.35)}
+    .badge-draw{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.35)}
+    /* Forms */
+    .form-row{display:flex;gap:12px;flex-wrap:wrap}
+    .form-group{flex:1 1 220px}
+    label{display:block;font-weight:800;color:var(--secondary-color);margin:4px 0 6px}
+    input, select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--light-color);background:var(--card-bg);color:var(--text);outline:0;transition:.2s ease;font-size:1rem}
+    input:focus, select:focus{border-color:var(--primary-color);box-shadow:0 0 0 4px rgba(185,73,234,.15)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer;background:linear-gradient(135deg, var(--primary-color), var(--primary-700));color:#fff;box-shadow:0 10px 20px rgba(185,73,234,.25);transition:.18s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:translateY(0)}
+    .btn-ghost{background:transparent;color:var(--primary-700);border:1px solid rgba(185,73,234,.35)}
+    .btn-danger{background:linear-gradient(135deg, #ef4444, #b91c1c);box-shadow:0 10px 20px rgba(239,68,68,.25)}
+    .btn-success{background:linear-gradient(135deg, #22c55e, #16a34a);box-shadow:0 10px 20px rgba(34,197,94,.25)}
+    footer{text-align:center;color:var(--muted);margin-top:22px;padding:12px;font-size:.95rem}
+    .hidden{display:none!important}
+    /* Bo3 map row tuning */
+    .map-row{align-items:flex-end}
+    .map-row .form-group{min-width:160px}
+    @media (max-width:768px){
+      header{padding:22px 16px}
+      .map-row .form-group{flex:1 1 120px}
+    }
+    /* Two-by-two team editor grid */
+    #teams-container{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    /* Tiny link button for per-map tracker */
+    .tiny-link{padding:2px 8px;font-size:.72rem;line-height:1;border-radius:999px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header role="banner" aria-label="VBL 2025 Season Finals">
+      <h1>VBL 2025 Season Finals · 四強單循環賽</h1>
+      <div class="subtitle">Standings & Results · 賽果與排名系統</div>
+
+      <div class="tabs" role="tablist" aria-label="主選單">
+        <button class="tab active" role="tab" aria-selected="true" aria-controls="panel-ranking" data-tab="ranking">賽事排名</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="panel-matches" data-tab="matches">比賽結果</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="panel-management" data-tab="management">賽事管理</button>
+      </div>
+    </header>
+
+    <!-- Ranking -->
+    <section id="panel-ranking" class="surface grid tab-content" aria-labelledby="ranking" data-panel="ranking">
+      <div class="section-title"><span class="dot"></span>隊伍排名</div>
+      <div class="stack">
+        <table aria-label="隊伍排名表">
+          <thead>
+            <tr>
+              <th class="rank">#</th>
+              <th>隊伍</th>
+              <th>場次勝負</th>
+              <th>回合勝負</th>
+              <th>回合勝負差</th>
+            </tr>
+          </thead>
+          <tbody id="ranking-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Matches -->
+    <section id="panel-matches" class="surface tab-content hidden" aria-labelledby="matches" data-panel="matches">
+      <div class="section-title"><span class="dot"></span>比賽結果</div>
+      <div id="matches-container" class="match-grid" aria-live="polite"></div>
+    </section>
+
+    <!-- Management -->
+    <section id="panel-management" class="grid tab-content hidden" aria-labelledby="management" data-panel="management">
+      <div class="surface stack">
+        <div class="section-title"><span class="dot"></span>隊伍管理（4 隊）</div>
+        <div id="teams-container"></div>
+      </div>
+
+      <div class="surface stack">
+        <div class="section-title"><span class="dot"></span>比賽結果管理（Bo3）</div>
+        <form id="add-match-form" class="stack" autocomplete="off">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="home-team">Team A</label>
+              <select id="home-team" required aria-label="Team A">
+                <option value="">選擇 Team A</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="away-team">Team B</label>
+              <select id="away-team" required aria-label="Team B">
+                <option value="">選擇 Team B</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="stack" id="bo3-maps">
+            <div class="form-row map-row" data-idx="1">
+              <div class="form-group">
+                <label>Map 1</label>
+                <select class="map-select" required>
+                  <option value="">選擇地圖</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Team A 回合</label>
+                <input type="number" class="map-a" min="0" step="1" required placeholder="例如：13">
+              </div>
+              <div class="form-group">
+                <label>Team B 回合</label>
+                <input type="number" class="map-b" min="0" step="1" required placeholder="例如：7">
+              </div>
+              <div class="form-group">
+                <label>Tracker.gg（可選）</label>
+                <input type="url" class="map-url" inputmode="url" placeholder="https://tracker.gg/valorant/match/xxxxxx">
+              </div>
+            </div>
+
+            <div class="form-row map-row" data-idx="2">
+              <div class="form-group">
+                <label>Map 2</label>
+                <select class="map-select" required>
+                  <option value="">選擇地圖</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Team A 回合</label>
+                <input type="number" class="map-a" min="0" step="1" required>
+              </div>
+              <div class="form-group">
+                <label>Team B 回合</label>
+                <input type="number" class="map-b" min="0" step="1" required>
+              </div>
+              <div class="form-group">
+                <label>Tracker.gg（可選）</label>
+                <input type="url" class="map-url" inputmode="url" placeholder="https://tracker.gg/valorant/match/xxxxxx">
+              </div>
+            </div>
+
+            <div class="form-row map-row" data-idx="3" id="map3-row">
+              <div class="form-group">
+                <label>Map 3（可不填）</label>
+                <select class="map-select">
+                  <option value="">選擇地圖</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Team A 回合</label>
+                <input type="number" class="map-a" min="0" step="1">
+              </div>
+              <div class="form-group">
+                <label>Team B 回合</label>
+                <input type="number" class="map-b" min="0" step="1">
+              </div>
+              <div class="form-group">
+                <label>Tracker.gg（可選）</label>
+                <input type="url" class="map-url" inputmode="url" placeholder="https://tracker.gg/valorant/match/xxxxxx">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success">新增 Bo3 賽果</button>
+        </form>
+      </div>
+
+      <div class="surface" style="display:flex;justify-content:flex-end">
+        <button id="reset-data" class="btn btn-danger" type="button">數據重置</button>
+      </div>
+    </section>
+
+    <footer>
+      VBL 2025 Season Finals · 四強單循環賽 © 2025–2026
+    </footer>
+  </div>
+
+  <script>
+    const LS_TEAMS_KEY = 'teams';
+    const LS_MATCHES_KEY = 'matches';
+    const MAP_POOL = ['Abyss','Bind','Corrode','Haven','Pearl','Split','Sunset'];
+
+    let teams = JSON.parse(localStorage.getItem(LS_TEAMS_KEY)) || [];
+    let matches = JSON.parse(localStorage.getItem(LS_MATCHES_KEY)) || [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initializePage();
+      bindTabs();
+      renderAll();
+    });
+
+    function initializePage(){
+      if(teams.length === 0){
+        teams = [
+          { id:1, name:'Team A', logo:'https://via.placeholder.com/100?text=A', wins:0, losses:0, roundWins:0, roundLosses:0 },
+          { id:2, name:'Team B', logo:'https://via.placeholder.com/100?text=B', wins:0, losses:0, roundWins:0, roundLosses:0 },
+          { id:3, name:'Team C', logo:'https://via.placeholder.com/100?text=C', wins:0, losses:0, roundWins:0, roundLosses:0 },
+          { id:4, name:'Team D', logo:'https://via.placeholder.com/100?text=D', wins:0, losses:0, roundWins:0, roundLosses:0 },
+        ];
+        saveTeams();
+      }
+      updateTeamSelects();
+      setupFormsAndButtons();
+    }
+
+    function saveTeams(){ localStorage.setItem(LS_TEAMS_KEY, JSON.stringify(teams)); }
+    function saveMatches(){ localStorage.setItem(LS_MATCHES_KEY, JSON.stringify(matches)); }
+
+    function calculateTeamStats(){
+      teams.forEach(t => { t.wins=0; t.losses=0; t.roundWins=0; t.roundLosses=0; });
+
+      matches.forEach(m => {
+        const home = teams.find(t => t.id === m.homeTeamId);
+        const away = teams.find(t => t.id === m.awayTeamId);
+        if(!home || !away) return;
+
+        const hRounds = (typeof m.homeRoundSum === 'number') ? m.homeRoundSum : m.homeScore;
+        const aRounds = (typeof m.awayRoundSum === 'number') ? m.awayRoundSum : m.awayScore;
+        home.roundWins += hRounds; home.roundLosses += aRounds;
+        away.roundWins += aRounds; away.roundLosses += hRounds;
+
+        const useMapWins = Array.isArray(m.maps) && m.maps.length >= 2;
+        const hMap = (typeof m.homeScore === 'number') ? m.homeScore : 0;
+        const aMap = (typeof m.awayScore === 'number') ? m.awayScore : 0;
+
+        if(useMapWins ? (hMap > aMap) : (m.homeScore > m.awayScore)){ home.wins += 1; }
+        else if(useMapWins ? (hMap < aMap) : (m.homeScore < m.awayScore)){ away.wins += 1; }
+      });
+
+      saveTeams();
+    }
+
+    function renderAll(){
+      renderRanking();
+      renderMatches();
+      renderTeamsManagement();
+    }
+
+    function renderRanking(){
+      calculateTeamStats();
+      const tbody = document.getElementById('ranking-body');
+      tbody.innerHTML = '';
+
+      const sorted = [...teams].sort((a,b)=>{
+        if(b.wins !== a.wins) return b.wins - a.wins;
+        const diffA = a.roundWins - a.roundLosses;
+        const diffB = b.roundWins - b.roundLosses;
+        return diffB - diffA;
+      });
+
+      sorted.forEach((t, idx)=>{
+        const diff = t.roundWins - t.roundLosses;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="rank">${idx+1}</td>
+          <td class="team-cell">
+            <img class="team-logo" src="${t.logo}" alt="${t.name} logo" onerror="this.src='https://via.placeholder.com/40?text=LOGO'"/>
+            <span>${t.name}</span>
+          </td>
+          <td><span class="pill">${t.wins} 勝</span>／<span class="pill">${t.losses} 敗</span></td>
+          <td>${t.roundWins} 勝／${t.roundLosses} 敗</td>
+          <td class="${diff>0?'diff-pos':(diff<0?'diff-neg':'')}">${diff>0?`+${diff}`:diff}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderMatches(){
+      const wrap = document.getElementById('matches-container');
+      wrap.innerHTML = '';
+      if(matches.length === 0){
+        wrap.innerHTML = `<div class="surface" style="text-align:center;color:var(--muted)">暫無比賽結果</div>`;
+        return;
+      }
+
+      matches.forEach(m=>{
+        const home = teams.find(t => t.id === m.homeTeamId);
+        const away = teams.find(t => t.id === m.awayTeamId);
+        if(!home || !away) return;
+
+        let homeBadge = '<span class="badge badge-draw">平</span>';
+        let awayBadge = '<span class="badge badge-draw">平</span>';
+        if(m.homeScore > m.awayScore){ homeBadge = '<span class="badge badge-win">勝</span>'; awayBadge = '<span class="badge badge-loss">敗</span>'; }
+        if(m.homeScore < m.awayScore){ homeBadge = '<span class="badge badge-loss">敗</span>'; awayBadge = '<span class="badge badge-win">勝</span>'; }
+
+        const mapSummary = Array.isArray(m.maps) && m.maps.length
+          ? `<div style="margin-left:12px; display:flex; flex-wrap:wrap; gap:6px;">
+               ${m.maps.map((x,i)=>{
+                 const btn = x.url ? ` <a class="btn btn-ghost tiny-link" href="${x.url}" target="_blank" rel="noopener noreferrer">查看戰績</a>` : '';
+                 return `<span class="pill" style="font-size:.72rem; padding:2px 8px;">M${i+1} ${x.map}: ${x.a}-${x.b}</span>${btn}`;
+               }).join('')}
+             </div>`
+          : '';
+
+        const card = document.createElement('div');
+        card.className = 'match-card';
+        card.innerHTML = `
+          <div class="match-teams">
+            <div class="team" title="Team A">
+              <span class="tag">Team A</span>
+              <img class="team-logo-sm" src="${home.logo}" alt="${home.name} logo"
+                   onerror="this.src='https://via.placeholder.com/26?text=A'"/>
+              <strong style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${home.name}</strong>
+              ${homeBadge}
+            </div>
+            <div class="score">${m.homeScore} - ${m.awayScore}</div>
+            <div class="team" style="justify-content:flex-end" title="Team B">
+              ${awayBadge}
+              <strong style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${away.name}</strong>
+              <img class="team-logo-sm" src="${away.logo}" alt="${away.name} logo"
+                   onerror="this.src='https://via.placeholder.com/26?text=B'"/>
+              <span class="tag">Team B</span>
+            </div>
+            ${mapSummary}
+          </div>
+          <div class="match-meta">
+            <span>${new Date(m.date).toLocaleDateString()}</span>
+            <button class="btn btn-ghost delete-match" data-match-id="${m.id}" aria-label="刪除比賽">刪除</button>
+          </div>
+        `;
+        wrap.appendChild(card);
+      });
+
+      document.querySelectorAll('.delete-match').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const id = parseInt(btn.dataset.matchId);
+          deleteMatch(id);
+        });
+      });
+    }
+
+    function renderTeamsManagement(){
+      const grid = document.getElementById('teams-container');
+      grid.innerHTML = '';
+
+      teams.slice(0,4).forEach(t=>{
+        const card = document.createElement('div');
+        card.className = 'surface stack';
+        card.style.borderRadius = '16px';
+        card.innerHTML = `
+          <div style="display:flex;align-items:center;gap:10px">
+            <img class="team-logo" style="width:62px;height:62px;border-radius:50%;border:3px solid rgba(185,73,234,.35)"
+                 src="${t.logo}" alt="${t.name} logo"
+                 onerror="this.src='https://via.placeholder.com/62?text=LOGO'"/>
+            <div style="min-width:0">
+              <div style="font-weight:900;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.name}</div>
+              <div style="color:var(--muted);font-size:.9rem">回合差 ${t.roundWins - t.roundLosses}</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn edit-team" data-team-id="${t.id}">編輯</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      document.querySelectorAll('.edit-team').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const id = parseInt(btn.dataset.teamId);
+          editTeam(id);
+        });
+      });
+    }
+
+    function updateTeamSelects(){
+      const homeSel = document.getElementById('home-team');
+      const awaySel = document.getElementById('away-team');
+      homeSel.innerHTML = '<option value="">選擇 Team A</option>';
+      awaySel.innerHTML = '<option value="">選擇 Team B</option>';
+
+      teams.slice(0,4).forEach(team=>{
+        const o1 = new Option(team.name, team.id);
+        const o2 = new Option(team.name, team.id);
+        homeSel.add(o1); awaySel.add(o2);
+      });
+    }
+
+    function setupFormsAndButtons(){
+      // 填充地圖下拉
+      document.querySelectorAll('#bo3-maps .map-select').forEach(sel=>{
+        sel.innerHTML = '<option value="">選擇地圖</option>' + MAP_POOL.map(m=>`<option value="${m}">${m}</option>`).join('');
+      });
+
+      // 新增比賽（Bo3）
+      document.getElementById('add-match-form').addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const homeTeamId = parseInt(document.getElementById('home-team').value);
+        const awayTeamId = parseInt(document.getElementById('away-team').value);
+        if(!homeTeamId || !awayTeamId){ alert('請選擇 Team A 與 Team B'); return; }
+        if(homeTeamId === awayTeamId){ alert('Team A 與 Team B 不可相同'); return; }
+
+        const rows = Array.from(document.querySelectorAll('#bo3-maps .map-row'));
+        const maps = [];
+        const used = new Set();
+
+        for(const row of rows){
+          const map = (row.querySelector('.map-select').value || '').trim();
+          const a = row.querySelector('.map-a').value;
+          const b = row.querySelector('.map-b').value;
+          const url = (row.querySelector('.map-url').value || '').trim();
+          if(map === '' && a === '' && b === '' && url === '') continue; // 整列空白可跳過（第3張）
+
+          if(!map){ alert('有填資料的地圖列需選擇地圖名稱'); return; }
+          if(used.has(map)){ alert('同一場不可重複地圖'); return; }
+          const ai = parseInt(a), bi = parseInt(b);
+          if(Number.isNaN(ai) || Number.isNaN(bi) || ai < 0 || bi < 0){
+            alert('請輸入正確的回合數'); return;
+          }
+          maps.push({ map, a: ai, b: bi, url: url || null });
+          used.add(map);
+        }
+
+        if(maps.length < 2){ alert('Bo3 至少需要兩張地圖'); return; }
+
+        let homeMapWins = 0, awayMapWins = 0;
+        let homeRoundSum = 0, awayRoundSum = 0;
+        maps.forEach(m=>{
+          if(m.a > m.b) homeMapWins++; else if(m.a < m.b) awayMapWins++;
+          homeRoundSum += m.a; awayRoundSum += m.b;
+        });
+
+        if(maps.length === 2 && homeMapWins === awayMapWins){
+          alert('目前 1-1，請填寫第三張地圖'); return;
+        }
+
+        // 單循環限制
+        const exists = matches.find(m =>
+          (m.homeTeamId === homeTeamId && m.awayTeamId === awayTeamId) ||
+          (m.homeTeamId === awayTeamId && m.awayTeamId === homeTeamId)
+        );
+        if(exists){ alert('此組合已存在比賽紀錄'); return; }
+
+        const newMatch = {
+          id: matches.length ? Math.max(...matches.map(m=>m.id))+1 : 1,
+          homeTeamId, awayTeamId,
+          homeScore: homeMapWins,
+          awayScore: awayMapWins,
+          homeRoundSum, awayRoundSum,
+          maps,
+          date: new Date().toISOString()
+        };
+        matches.push(newMatch);
+        saveMatches();
+
+        // 清空表單
+        document.getElementById('home-team').value = '';
+        document.getElementById('away-team').value = '';
+        document.querySelectorAll('#bo3-maps .map-select').forEach(s=>s.value='');
+        document.querySelectorAll('#bo3-maps .map-a').forEach(i=>i.value='');
+        document.querySelectorAll('#bo3-maps .map-b').forEach(i=>i.value='');
+        document.querySelectorAll('#bo3-maps .map-url').forEach(i=>i.value='');
+
+        renderAll();
+        alert('Bo3 賽果新增成功！');
+      });
+
+      // 重置
+      document.getElementById('reset-data').addEventListener('click', ()=>{
+        if(confirm('確定要重置所有數據嗎？（不可復原）')){
+          teams = [];
+          matches = [];
+          localStorage.removeItem(LS_TEAMS_KEY);
+          localStorage.removeItem(LS_MATCHES_KEY);
+          initializePage();
+          renderAll();
+          alert('數據已重置！');
+        }
+      });
+    }
+
+    function editTeam(id){
+      const t = teams.find(x=>x.id===id);
+      if(!t) return;
+      const newName = prompt('請輸入新的隊伍名稱：', t.name);
+      if(newName && newName.trim() !== '') t.name = newName.trim();
+      const newLogo = prompt('請輸入新的隊伍 Logo URL：', t.logo);
+      if(newLogo !== null) t.logo = (newLogo.trim() || t.logo);
+      saveTeams(); renderAll(); updateTeamSelects();
+    }
+
+    function deleteMatch(matchId){
+      if(!confirm('確定要刪除這個比賽結果嗎？')) return;
+      matches = matches.filter(m => m.id !== matchId);
+      saveMatches(); renderAll();
+    }
+
+    function bindTabs(){
+      const tabs = document.querySelectorAll('.tab');
+      const panels = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab=>{
+        tab.addEventListener('click', ()=>{
+          const id = tab.dataset.tab;
+          tabs.forEach(t=>{ t.classList.toggle('active', t===tab); t.setAttribute('aria-selected', t===tab ? 'true':'false'); });
+          panels.forEach(p=>{
+            const active = p.dataset.panel === id;
+            p.classList.toggle('hidden', !active);
+            p.classList.toggle('surface', true);
+          });
+        });
+      });
+    }
+  </script>
+</body>
+</html>
