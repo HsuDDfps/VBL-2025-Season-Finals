@@ -377,7 +377,7 @@
         if(m.homeScore < m.awayScore){ homeBadge = '<span class="badge badge-loss">敗</span>'; awayBadge = '<span class="badge badge-win">勝</span>'; }
 
         const mapSummary = Array.isArray(m.maps) && m.maps.length
-          ? `<div style="margin-left:12px; display:flex; flex-wrap:wrap; gap:6px;">
+          ? `<div style="flex-basis:100%; margin-top:6px; display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-start;">
                ${m.maps.map((x,i)=>{
                  const btn = x.url ? ` <a class="btn btn-ghost tiny-link" href="${x.url}" target="_blank" rel="noopener noreferrer">查看戰績</a>` : '';
                  return `<span class="pill" style="font-size:.72rem; padding:2px 8px;">M${i+1} ${x.map}: ${x.a}-${x.b}</span>${btn}`;
